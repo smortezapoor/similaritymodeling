@@ -6,7 +6,7 @@ Created on Nov 22, 2015
 from Feaures.Helper import *
 import numpy as np
 import cv2
-from Feaures.Soroosh import AddMyFeatures_Soroosh
+from Feaures.Soroosh import *
 from Feaures.Andreas import AddMyFeatures_Andreas
 from Common.CommonHelper import Announce
 
@@ -31,15 +31,22 @@ class FeatureExtractor(object):
             
             fps = cap.get(cv2.cv.CV_CAP_PROP_FPS)
             framecount = cap.get(cv2.cv.CV_CAP_PROP_FRAME_COUNT)
+            frameresolution_width = cap.get(cv2.cv.CV_CAP_PROP_FRAME_WIDTH)
+            frameresolution_height = cap.get(cv2.cv.CV_CAP_PROP_FRAME_HEIGHT)
+            
+            #cap.set(cv2.cv.CV_CAP_PROP_POS_FRAMES, 15052)
             
             framecount_int = int(framecount)
             
-            Announce('----File contains {0} frames'.format(framecount_int))
+            Announce('----File contains {0} frames with rate {1} fps in {2}x{3}'.format(framecount_int, fps, frameresolution_width, frameresolution_height))
             
             for i in range (0, framecount_int):
                 
                 #read a frame
-                ret, frame = cap.read()
+                ret , frame = cap.read()
+                
+                
+
                 
                 #check if the frame is readable
                 if ret == False:
@@ -49,25 +56,24 @@ class FeatureExtractor(object):
                 if i % (frametoskip + 1) is not 0:
                     continue
                 
-                #flush all data in a output row
-                self.createOutputRow()
-                
-                #add a label for the new frame
-                self.addLabel(video_filename, cap.get(cv2.cv.CV_CAP_PROP_POS_MSEC))
-                
-                if self.configObject['features'] == '*' or  self.configObject['features'] == 'soroosh':
-                    #add features from Soroosh
-                    self.addFeatures_Soroosh(video_filename, cap, frame)
+                if i < framecount_int:
+                    #flush all data in a output row
+                    self.createOutputRow()
                     
-                
-                if self.configObject['features'] == '*' or  self.configObject['features'] == 'andreas':
-                    #add feature from Andreas
-                    self.addFeatures_Andreas(video_filename, cap, frame)
+                    #add a label for the new frame
+                    self.addLabel(video_filename, cap.get(cv2.cv.CV_CAP_PROP_POS_MSEC))
                     
-
-                
-                #add the output row to the output matrix
-                self.submitOutputRow()
+                    if self.configObject['features'] == '*' or  self.configObject['features'] == 'soroosh':
+                        #add features from Soroosh
+                        self.addFeatures_Soroosh(video_filename, cap, frame, self.configObject)
+                        
+                    
+                    if self.configObject['features'] == '*' or  self.configObject['features'] == 'andreas':
+                        #add feature from Andreas
+                        self.addFeatures_Andreas(video_filename, cap, frame,  self.configObject)
+                        
+                    #add the output row to the output matrix
+                    self.submitOutputRow()
             
             self.closeVideo(cap)
             Announce('-File closed: {0}'.format(video_filename))
@@ -94,18 +100,52 @@ class FeatureExtractor(object):
     def addLabel(self, filename, req_millisecond):
         self.currentOutputRow.append(groundTruthValue(self.configObject, filename, req_millisecond))
     
-    def addFeatures_Soroosh(self, filename, cap, frame):
-        new_features = AddMyFeatures_Soroosh(filename, cap, frame)
+    def addFeatures_Soroosh(self, filename, cap, frame, confobj):
+        new_features = AddMyFeatures_Soroosh(filename, cap, frame, confobj)
         
         for i in range(0, len(new_features)):
             self.currentOutputRow.append(new_features[i])
         
         
-    def addFeatures_Andreas(self, filename, cap, frame):
-        new_features = AddMyFeatures_Andreas(filename, cap, frame)
+    def addFeatures_Andreas(self, filename, cap, frame, confobj):
+        new_features = AddMyFeatures_Andreas(filename, cap, frame, confobj)
         
         for i in range(0, len(new_features)):
             self.currentOutputRow.append(new_features[i])
     
     def returnLearningList(self):
         return self.output
+    
+    def SaveDataset(self, dataset):
+        Announce('Writing the result to the intermediary dataset')
+        _outputdir = self.configObject['outputdir']
+        _writer = open(self.configObject['outputdir'] + '/dataset.dat', 'w+')
+        for _line in dataset:
+            _outline=''
+            for i in range(0, len(_line)):
+                _outline+= str(_line[i])+ ('\n' if i == len(_line)-1 else ',')
+            _writer.write(_outline)
+        
+        _writer.flush()
+        _writer.close()
+        Announce('Data is written successfully')
+
+    
+    def ReadDataset(self):
+        _reader = open(self.configObject['outputdir'] + '/dataset.dat', 'r')
+        Announce('Reading out the intermediary dataset')
+        _dataset = []
+        for _line in _reader.readlines():
+            _splitted = _line.split(',')
+            _row = []
+            for i in range(0, len(_splitted)):
+                _row.append(float(_splitted[i]) if i != 0 else int(_splitted[i]))
+            _dataset.append(_row)
+        
+        _reader.close()
+        Announce('Successfully read {0} line of data'.format(len(_dataset)))
+        return _dataset
+    
+    
+    
+    

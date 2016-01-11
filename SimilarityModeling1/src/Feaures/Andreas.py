@@ -5,7 +5,7 @@ Created on Nov 22, 2015
 '''
 
 
-def AddMyFeatures_Andreas(filename, cap, frame):
+def AddMyFeatures_Andreas(filename, cap, frame, confobj):
     '''
     You should write your code here (remove 'pass' before writing any code)
     You can add your feature values one by one to an array and pass it out

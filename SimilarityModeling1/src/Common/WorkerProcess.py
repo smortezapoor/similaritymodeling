@@ -12,13 +12,20 @@ def Process(configObject):
     #Creating an object of FeatureExtractor
     _featureExtractor = FeatureExtractor(configObject)
     
-    #reading video files
-    _featureExtractor.CreateAllFeatureValues()
+
     
-    #obtaining a final vector of features with a label at the beginning
-    dataset = _featureExtractor.returnLearningList()
+    dataset = []
     
+    if configObject['mode'] == '0':
+        #reading video files
+        _featureExtractor.CreateAllFeatureValues()
     
+        #obtaining a final vector of features with a label at the beginning
+        dataset = _featureExtractor.returnLearningList()
+        
+        _featureExtractor.SaveDataset(dataset)
+    else :
+        dataset = _featureExtractor.ReadDataset()
     
     #Creatung an object of learner class
     _learner = Learner(configObject)

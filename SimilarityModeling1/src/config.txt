@@ -1,1 +1,1 @@
-{'inputdir' : '/home/soroosh/Data/video-merged', 'features' : '*', 'frametoskip' : '10' , 'ground-truth' : '/home/soroosh/Data/GroundTruth/ground-truth.csv', 'outputdir' : '', 'mode' = '0'}
+{'inputdir' : '/home/soroosh/Data/video-merged', 'inputfeatures' : '/home/soroosh/Data/features', 'features' : '*', 'frametoskip' : '0' , 'ground-truth' : '/home/soroosh/Data/GroundTruth/ground-truth.csv', 'outputdir' : '/home/soroosh/Data/IntermediateResult', 'mode' : '0'}
