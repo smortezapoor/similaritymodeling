@@ -43,6 +43,23 @@ The configuration of the application can be found in "/src/config.txt". The conf
 
 ### Architecture 
 
+The architecture of the program is as following:
+
+There are three different stages to compute features for a particular frame.
+
+#### 1. Similarity measurement
+
+In the first stage of gathering features, each frame is inspected for similarity to three particular parts, called "stand-window", "mid-window" and "high-window", of the frames at which a jump happens. There are 10 features, extracted and stored to be compared to the other frames and they can be found in Data section. From these features, called reference windows hereafter, 5 reference windows correspond to "high-window", 4 reference windows correspond to "mid-window" and 1 to the "stand-window". These reference windows is the place where the operator stands before a jump as "stand-window", the place where the operator will be located during a jump, referred to as "mid-window" and the place where the operator will be hanged after a jump.
+
+In each frame, three different windows, matched to the features in size are extracted and the distance to the reference windows are calculated with "Taxicab geometry" and summed up. Thus per each frame, 10 different similarity measurement features are calculated and added to the feature vector.
+
+#### 2. Statistical features
+
+In addition to the similarity measurement features, some statistical features are gathered such as the color information of each reference window in a frame as different values for different channels.
+
+#### 3. Sequence combination features
+
+An important stage in forming the feature vector for this problem is by combining the features which are calculated for each frame with neighbor frames. As the operation is offline and needn't be a realtime system, this stage is allowed. Therefore for each feature vector in the dataset list, the feature vectors which belong to i to i+5 frames are appended to the feature vector of i-th frame. Furthermore, a linear combination of these 6 vectors are added at end of the i-th frame feature vector. This stage helps impove the results considerably.
 
 ### Data
 
