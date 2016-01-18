@@ -75,11 +75,14 @@ The [Data] contains all video files along with required csv groundtruth file and
 
 ### Results
 
+The results of the experiment can be found [HERE]. The results contain the information of the metrics from trained classifiers such as Decision Tree, kNN, SVM and SGD with different parameters. What's more, "Receiver Operating Charactristic" diagrams can be found in the results folder.
+
 
 [//]: # (These are reference links used in the body of this note and get stripped out when the markdown processor does its job. There is no need to format nicely because it shouldn't be seen. Thanks SO - http://stackoverflow.com/questions/4823468/store-comments-in-markdown-syntax)
 
 
    [Data]: <http://smortezapoor.com/share/SM/SM1/Data.zip>
+   [HERE]: <http://smortezapoor.com/share/SM/SM1/Final%20Results%20(offline)/>
    [http://smortezapoor.com/share/SM/SM1/Data.zip]: <http://smortezapoor.com/share/SM/SM1/Data.zip>
    [TU Jump Into The Future]: <https://www.ims.tuwien.ac.at/projects/virtualjumpsimulator>
    [Python 2.7]: <https://www.python.org/download/releases/2.7/>
