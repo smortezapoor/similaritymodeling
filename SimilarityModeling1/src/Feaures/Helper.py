@@ -4,6 +4,8 @@ Created on Nov 22, 2015
 @author: soroosh
 '''
 import os
+import numpy as np
+import random
 
 GroundTruthHolder = []
 
@@ -37,7 +39,7 @@ def groundTruthValue(configObject ,filename, req_millisecond):
     #check if it is in the first jump
     _jump1_msecs = (int(min1) * 60 + int(sec1)) * 1000
     
-    if req_millisecond >= _jump1_msecs and req_millisecond <=_jump1_msecs + 2000:
+    if req_millisecond + 1000  >= _jump1_msecs and req_millisecond <=_jump1_msecs + 4000:
         return 1
     
     
@@ -45,7 +47,7 @@ def groundTruthValue(configObject ,filename, req_millisecond):
         min2 = fileobject[0]['Jump #2'].split(':')[0]
         sec2 = fileobject[0]['Jump #2'].split(':')[1]
         _jump2_msecs = (int(min2) * 60 + int(sec2)) * 1000
-        if req_millisecond >= _jump2_msecs and req_millisecond <=_jump2_msecs + 2000:
+        if req_millisecond + 1000 >= _jump2_msecs and req_millisecond <=_jump2_msecs + 4000:
             return 1
     
     return 0
@@ -69,3 +71,13 @@ def readGroundTruth(configObject):
         
     
     f.close()
+    
+    
+def SplitToSetLabel( instances):
+        _outputInstances = [x[1:] for x in instances]
+        _outputLabels = [int(x[0]) for x in instances]
+        return (np.asarray(_outputInstances), np.asarray(_outputLabels))
+    
+def ShakeData(instances):
+    random.shuffle(instances)
+    return np.asarray(instances)

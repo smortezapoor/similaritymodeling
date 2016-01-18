@@ -37,7 +37,7 @@ def AddMyFeatures_Soroosh(filename, cap, frame, configObject):
         ReadFeatures(configObject['inputfeatures'])
     
     _frame_blur = ApplyBlurImage(frame)
-    _frame_blur_gray = cv2.cvtColor(_frame_blur, cv2.COLOR_BGR2GRAY)
+    _frame_blur_gray = cv2.cvtColor(cv2.cvtColor(_frame_blur, cv2.COLOR_BGR2GRAY), cv2.COLOR_GRAY2BGR)
     
     _standwindow = ReadStandWindow(frame)
     _midwindow = ReadMidWindow(frame)
@@ -56,54 +56,94 @@ def AddMyFeatures_Soroosh(filename, cap, frame, configObject):
     for _key in sorted(_keys):
         if 'feature_stand' in _key:
             if 'color' in _key:
-                my_results.append(MeasureSimilarity(so_features[_key],_standwindow_blur))
+                my_results.append(MeasureSimilarity(cv2.cvtColor(cv2.cvtColor(so_features[_key], cv2.COLOR_BGR2GRAY), cv2.COLOR_GRAY2BGR),_standwindow_blur_gray))
             else:
                 my_results.append(MeasureSimilarity(so_features[_key],_standwindow_blur_gray))
                 
         if 'feature_mid' in _key:
             if 'color' in _key:
-                my_results.append(MeasureSimilarity(so_features[_key],_midwindow_blur))
+                my_results.append(MeasureSimilarity(cv2.cvtColor(cv2.cvtColor(so_features[_key], cv2.COLOR_BGR2GRAY), cv2.COLOR_GRAY2BGR),_midwindow_blur_gray))
             else:
                 my_results.append(MeasureSimilarity(so_features[_key],_midwindow_blur_gray))
                 
         if 'feature_high' in _key:
             if 'color' in _key:
-                my_results.append(MeasureSimilarity(so_features[_key],_highwindow_blur))
+                my_results.append(MeasureSimilarity(cv2.cvtColor(cv2.cvtColor(so_features[_key], cv2.COLOR_BGR2GRAY), cv2.COLOR_GRAY2BGR),_highwindow_blur_gray))
             else:
                 my_results.append(MeasureSimilarity(so_features[_key],_highwindow_blur_gray))
     
+        #Announce('Filter: {0} : Applied. {1}'.format(_key, my_results))
+    
+    
+    reshaped_1 = _standwindow.reshape(_standwindow.size).astype(float)
+    
+    
+    #RGB of stand
+    ss_1_1 = reshaped_1[0:_standwindow.size:3]
+    ss_1_2 = reshaped_1[1:_standwindow.size:3]
+    ss_1_3 = reshaped_1[2:_standwindow.size:3]
+    
+    ones1_1 = np.ones(ss_1_1.size)
+    ones1_2 = np.ones(ss_1_2.size)
+    ones1_3 = np.ones(ss_1_3.size)
+    
+    sum1_1 = np.dot(ss_1_1, ones1_1)
+    sum1_2 = np.dot(ss_1_2, ones1_2)
+    sum1_3 = np.dot(ss_1_3, ones1_3)
+    
+    my_results.append(sum1_1)
+    my_results.append(sum1_2)
+    my_results.append(sum1_3)
+    
+    #RGB of mid
+    ss_2_1 = reshaped_1[0:_midwindow.size:3]
+    ss_2_2 = reshaped_1[1:_midwindow.size:3]
+    ss_2_3 = reshaped_1[2:_midwindow.size:3]
+    
+    ones2_1 = np.ones(ss_2_1.size)
+    ones2_2 = np.ones(ss_2_2.size)
+    ones2_3 = np.ones(ss_2_3.size)
+    
+    sum2_1 = np.dot(ss_2_1, ones2_1)
+    sum2_2 = np.dot(ss_2_2, ones2_2)
+    sum2_3 = np.dot(ss_2_3, ones2_3)
+    
+    my_results.append(sum2_1)
+    my_results.append(sum2_2)
+    my_results.append(sum2_3)
+    
+    #RGB of high
+    ss_3_1 = reshaped_1[0:_midwindow.size:3]
+    ss_3_2 = reshaped_1[1:_midwindow.size:3]
+    ss_3_3 = reshaped_1[2:_midwindow.size:3]
+    
+    ones3_1 = np.ones(ss_3_1.size)
+    ones3_2 = np.ones(ss_3_2.size)
+    ones3_3 = np.ones(ss_3_3.size)
+    
+    sum3_1 = np.dot(ss_3_1, ones3_1)
+    sum3_2 = np.dot(ss_3_2, ones3_2)
+    sum3_3 = np.dot(ss_3_3, ones3_3)
+    
+    my_results.append(sum3_1)
+    my_results.append(sum3_2)
+    my_results.append(sum3_3)
     
     return my_results
 
 
 def MeasureSimilarity(img1, img2):
     
-    if len(img1) != len(img2):
+    if img1.size != img2.size:
         Announce('Wrong measurement')
     
-    if len(img1[0]) != len(img2[0]):
-        Announce('Wrong measurement')
-        
-    img1_is_grayscale = isinstance(img1[0][0], uint8)
-    img2_is_grayscale = isinstance(img2[0][0], uint8)
+    _img1_reshaped = img1.reshape(img1.size).astype(float)
+    _img2_reshaped = img2.reshape(img2.size).astype(float)
+    sub =  np.subtract(_img1_reshaped, _img2_reshaped)
+    ones = np.ones(sub.size)
+    result = np.dot(sub, ones)
     
-    _amount = 0.0
-    
-    for i in range(0, len(img1)):
-        for j in range(0, len(img1[i])):
-            _r_1 = int(img1[i][j] if img1_is_grayscale else img1[i][j][0])
-            _g_1 = int(img1[i][j] if img1_is_grayscale else img1[i][j][1])
-            _b_1 = int(img1[i][j] if img1_is_grayscale else img1[i][j][2])
-            
-            _r_2 = int(img2[i][j] if img2_is_grayscale else img2[i][j][0])
-            _g_2 = int(img2[i][j] if img2_is_grayscale else img2[i][j][1])
-            _b_2 = int(img2[i][j] if img2_is_grayscale else img2[i][j][2])
-            
-            _dot_product = _r_1 * _r_2 + _g_1 * _g_2 + _b_1 * _b_2
-            
-            _amount += _dot_product
-    
-    return _amount
+    return result
 
 def ReadFeatures(inputfeatures_address):
     _filenames = readAllFileNames(inputfeatures_address, 'png')

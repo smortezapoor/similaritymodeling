@@ -18,30 +18,5 @@ def AddMyFeatures_Andreas(filename, cap, frame, confobj):
     my_results = []
     
     
-    #
-    #
-    #
-    #
-    #doing some computations
-    #
-    #
-    #
-    #
-    
-    #adding a value to the result set
-    my_results.append(1)
-    
-    #
-    #
-    #
-    #doing some more computations
-    #
-    #
-    #
-    #
-    
-    #adding the result of the computation as a new value at the end of the data set
-    my_results.append(1000)
-    
     #returning the dataset to be appended to the main dataset
     return my_results
