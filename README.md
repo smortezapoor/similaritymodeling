@@ -61,7 +61,16 @@ In addition to the similarity measurement features, some statistical features ar
 
 An important stage in forming the feature vector for this problem is by combining the features which are calculated for each frame with neighbor frames. As the operation is offline and needn't be a realtime system, this stage is allowed. Therefore for each feature vector in the dataset list, the feature vectors which belong to i to i+5 frames are appended to the feature vector of i-th frame. Furthermore, a linear combination of these 6 vectors are added at end of the i-th frame feature vector. This stage helps impove the results considerably.
 
+Note: A circular queue is used to make sure that next frames are always available. 
+
 ### Data
+
+The [Data] used for this experiment can be downloaded from following path:
+
+[http://smortezapoor.com/share/SM/SM1/Data.zip]
+
+The [Data] contains all video files along with required csv groundtruth file and reference windows images.
+
 
 
 ### Results
@@ -70,7 +79,8 @@ An important stage in forming the feature vector for this problem is by combinin
 [//]: # (These are reference links used in the body of this note and get stripped out when the markdown processor does its job. There is no need to format nicely because it shouldn't be seen. Thanks SO - http://stackoverflow.com/questions/4823468/store-comments-in-markdown-syntax)
 
 
-   [Data]: <https://github.com/joemccann/dillinger>
+   [Data]: <http://smortezapoor.com/share/SM/SM1/Data.zip>
+   [http://smortezapoor.com/share/SM/SM1/Data.zip]: <http://smortezapoor.com/share/SM/SM1/Data.zip>
    [TU Jump Into The Future]: <https://www.ims.tuwien.ac.at/projects/virtualjumpsimulator>
    [Python 2.7]: <https://www.python.org/download/releases/2.7/>
    [scikit-learn]: <http://scikit-learn.org/stable/>
