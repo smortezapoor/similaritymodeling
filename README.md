@@ -49,9 +49,28 @@ There are three different stages to compute features for a particular frame.
 
 #### 1. Similarity measurement
 
-In the first stage of gathering features, each frame is inspected for similarity to three particular parts, called "stand-window", "mid-window" and "high-window", of the frames at which a jump happens. There are 10 features, extracted and stored to be compared to the other frames and they can be found in Data section. From these features, called reference windows hereafter, 5 reference windows correspond to "high-window", 4 reference windows correspond to "mid-window" and 1 to the "stand-window". These reference windows is the place where the operator stands before a jump as "stand-window", the place where the operator will be located during a jump, referred to as "mid-window" and the place where the operator will be hanged after a jump.
+In the first stage of gathering features, each frame is inspected for similarity to three particular parts, called "stand-window", "mid-window" and "high-window", of the frames at which a jump happens. There are 10 features, extracted and stored to be compared to the other frames and they can be found in Data section. From these features, called reference windows hereafter, 5 reference windows correspond to "high-window", 4 reference windows correspond to "mid-window" and 1 to the "stand-window". These reference windows are the places where the operator stands before a jump as "stand-window", the operator will be located during a jump as "mid-window" and the operator will be hanged after a jump as "high-window". In all cases, these reference windows are blured and in all but one case they are gray-scaled.
 
 In each frame, three different windows, matched to the features in size are extracted and the distance to the reference windows are calculated with "Taxicab geometry" and summed up. Thus per each frame, 10 different similarity measurement features are calculated and added to the feature vector.
+
+##### Stand-window
+![alt feature](http://smortezapoor.com/share/SM/SM1/features/feature_stand.png)
+##### Mid-windows
+![alt feature](http://smortezapoor.com/share/SM/SM1/features/feature_mid_01.png)
+![alt feature](http://smortezapoor.com/share/SM/SM1/features/feature_mid_02.png)
+![alt feature](http://smortezapoor.com/share/SM/SM1/features/feature_mid_03.png)
+![alt feature](http://smortezapoor.com/share/SM/SM1/features/feature_mid_04.png)
+##### High-windows
+![alt feature](http://smortezapoor.com/share/SM/SM1/features/feature_high_01.png)
+![alt feature](http://smortezapoor.com/share/SM/SM1/features/feature_high_02.png)
+![alt feature](http://smortezapoor.com/share/SM/SM1/features/feature_high_03.png)
+![alt feature](http://smortezapoor.com/share/SM/SM1/features/feature_high_04.png)
+![alt feature](http://smortezapoor.com/share/SM/SM1/features/feature_high_05_color.png)
+
+
+
+
+
 
 #### 2. Statistical features
 
