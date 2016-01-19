@@ -75,8 +75,107 @@ The [Data] contains all video files along with required csv groundtruth file and
 
 ### Results
 
-The results of the experiment can be found [HERE]. The results contain the information of the metrics from trained classifiers such as Decision Tree, kNN, SVM and SGD with different parameters. What's more, "Receiver Operating Charactristic" diagrams can be found in the results folder.
+The results of the experiment can be found [HERE]. The results contain the information of the metrics from trained classifiers such as Decision Tree, kNN, SVM and SGD with different parameters. What's more, "Receiver Operating Charactristic" diagrams can be found in the results folder as well below.
 
+#### Decision Tree
+
+DecisionTree
+
+     # Instances: 7060 
+     # Cross-validation folds: 5
+     # Training set: 5648 
+     # Test set: 1412 
+     
+     Precision: 0.758719134073 
+     Recall: 0.739797747056 
+     Accuracy: 0.901698192896 
+     F1-score: 0.748981308261 
+
+
+
+     Learner parameters: 
+
+![alt Decision Tree](http://smortezapoor.com/share/SM/SM1/Final%20Results%20(offline)/DecisionTree.png)
+
+#### kNN (n=1)
+
+    # Instances: 7060 
+     # Cross-validation folds: 5 
+     # Training set: 5648 
+     # Test set: 1412 
+ 
+     Precision: 0.852281990212 
+     Recall: 0.724086021505 
+     Accuracy: 0.920397687466 
+     F1-score: 0.782794093737 
+
+     Learner parameters: #N = 1
+
+![alt kNN-1](http://smortezapoor.com/share/SM/SM1/Final%20Results%20(offline)/knn1.png)
+
+#### kNN (n=3)
+
+     # Instances: 7060 
+     # Cross-validation folds: 5 
+     # Training set: 5648 
+     # Test set: 1412 
+ 
+     Precision: 0.859116720568 
+     Recall: 0.643297491039 
+     Accuracy: 0.908357323294 
+     F1-score: 0.735159140642 
+
+     Learner parameters: #N = 3
+ 
+![alt kNN-3](http://smortezapoor.com/share/SM/SM1/Final%20Results%20(offline)/knn3.png)
+
+#### kNN (n=5)
+
+     # Instances: 7060 
+     # Cross-validation folds: 5 
+     # Training set: 5648 
+     # Test set: 1412 
+ 
+     Precision: 0.844674234802 
+     Recall: 0.566095750128 
+     Accuracy: 0.893200009729 
+     F1-score: 0.676878946081 
+
+     Learner parameters: #N = 5
+
+![alt kNN-5](http://smortezapoor.com/share/SM/SM1/Final%20Results%20(offline)/knn5.png)
+
+#### SGD-1
+
+     # Instances: 7060 
+     # Cross-validation folds: 5 
+     # Training set: 5648 
+     # Test set: 1412 
+ 
+     Precision: 0.223368451879 
+     Recall: 0.392158218126 
+     Accuracy: 0.605664878806 
+     F1-score: 0.174710216223 
+
+     Learner parameters: loss: log, penalty: elasticnet
+ 
+![alt SGD-1](http://smortezapoor.com/share/SM/SM1/Final%20Results%20(offline)/sgd-1.png)
+
+#### SGD-1
+
+     # Instances: 7060 
+     # Cross-validation folds: 5 
+     # Training set: 5648 
+     # Test set: 1412 
+ 
+     Precision: 0.321637899887 
+     Recall: 0.435570916539 
+     Accuracy: 0.690193651789 
+     F1-score: 0.33393417591 
+
+     Learner parameters: loss: modified_huber, penalty: elasticnet
+ 
+![alt SGD-2](http://smortezapoor.com/share/SM/SM1/Final%20Results%20(offline)/sgd-2.png)
 
 [//]: # (These are reference links used in the body of this note and get stripped out when the markdown processor does its job. There is no need to format nicely because it shouldn't be seen. Thanks SO - http://stackoverflow.com/questions/4823468/store-comments-in-markdown-syntax)
 
